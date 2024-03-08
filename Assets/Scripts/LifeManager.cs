@@ -5,7 +5,7 @@ using UnityEngine;
 public class LifeManager : MonoBehaviour
 {
     public GameObject lifeSprite;
-    private int life;
+    public int life;
     public GameObject gameManager;
     GameManager gm;
 
@@ -30,17 +30,17 @@ public class LifeManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Minus))
         {
-            lifeDown();
+            lifeminus();
         }
         if (Input.GetKeyDown(KeyCode.Equals))
         {
-            lifeUp();
+            lifeadd();
         }
     }
 
     //life up and life down methods
     //some logic to avoid hiccups, pretty self explanatory past that
-    public void lifeUp()
+    public void lifeadd()
     {
         if (life >= 8)
         {
@@ -63,7 +63,7 @@ public class LifeManager : MonoBehaviour
         life++;
         Debug.Log(life);
     }
-    public void lifeDown()
+    public void lifeminus()
     {
         if (life <= 1)
         {
@@ -79,6 +79,6 @@ public class LifeManager : MonoBehaviour
             lifeList.RemoveAt(life - 2);
         }
         life--;
-        Debug.Log(life);
+        Debug.Log(life-1);
     }
 }

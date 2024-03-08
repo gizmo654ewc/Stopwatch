@@ -8,6 +8,7 @@ public class Enemy_Controller : MonoBehaviour
     Enemy_Behavior behavior;
     public GameObject emitter;
     Emitter_Basic emitScript;
+    public GameObject sprite;
 
     public Enemy_Behavior.ShotChoice shotChoice;
 

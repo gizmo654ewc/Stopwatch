@@ -19,7 +19,11 @@ public class ES_Basic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        player = GameObject.FindWithTag("Player");
+        if (player == null)
+        {
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -36,7 +40,7 @@ public class ES_Basic : MonoBehaviour
     public void Aimed()
     {
 
-        player = GameObject.Find("Player");
+        player = GameObject.FindWithTag("Player");
         if (player != null)
         {
             rb = GetComponent<Rigidbody2D>();
@@ -52,7 +56,7 @@ public class ES_Basic : MonoBehaviour
     //AimedOffset() aims the shot at the player, then adjusts the angle off by the inputted degrees
     public void AimedOffset(float deg)
     {
-        player = GameObject.Find("Player");
+        player = GameObject.FindWithTag("Player");
         if (player != null)
         {
             rb = GetComponent<Rigidbody2D>();

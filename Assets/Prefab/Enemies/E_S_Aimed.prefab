@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 712293508874594539}
-  - component: {fileID: 5097471263416000099}
+  - component: {fileID: 8502896650194797332}
   - component: {fileID: 6434128919639342043}
   - component: {fileID: 2226690293394936255}
   m_Layer: 0
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 3835151739758659762}
   m_Father: {fileID: 1247899783994883716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &5097471263416000099
+--- !u!61 &8502896650194797332
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,7 +68,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.015166998, y: -0.14177203}
+  m_Offset: {x: -0.016390055, y: 0.08663353}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -79,7 +79,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.72337675, y: 0.6545787}
+  m_Size: {x: 0.68624693, y: 0.76117235}
   m_EdgeRadius: 0
 --- !u!50 &6434128919639342043
 Rigidbody2D:
@@ -123,6 +123,7 @@ MonoBehaviour:
   route1: {fileID: 2727056838502277989}
   route2: {fileID: 5541911213346189457}
   route3: {fileID: 1278956497986718379}
+  sprite: {fileID: 4011575953681906526}
   shotChoice: 0
   shotWait: 0
   shotsFired: 0
@@ -279,6 +280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 404445834640381553}
   emitter: {fileID: 6956764560669533025}
+  sprite: {fileID: 4011575953681906526}
   shotChoice: 0
   ShotWait: 0.5
   TimesFired: 5

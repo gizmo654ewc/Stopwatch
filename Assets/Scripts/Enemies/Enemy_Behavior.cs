@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class Enemy_Behavior : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Enemy_Behavior : MonoBehaviour
 
     private GameObject emitter;
     Emitter_Basic emitScript;
+
+    public GameObject sprite;
 
     public enum ShotChoice
     {
@@ -103,5 +106,23 @@ public class Enemy_Behavior : MonoBehaviour
         }
         yield return new WaitForSeconds(2f);
         shooting_complete = true;
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "PlayerShot")
+        {
+            Debug.Log("e_hit");
+            Destroy(col.gameObject);
+            StartCoroutine(Flicker());
+            //Destroy(this.transform.parent.gameObject);
+        }
+    }
+
+    IEnumerator Flicker()
+    {
+        sprite.GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(.04f);
+        sprite.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }

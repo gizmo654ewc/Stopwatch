@@ -834,5 +834,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04899cf8f43ed2418adb6d4933be293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerEmitter: {fileID: 1162179615910120391}
+  leftEmitter: {fileID: 5801607553785135851}
+  rightEmitter: {fileID: 2111294017620699858}
+  power: 0
   movementSpeed: 8
+  autofireSpeed: 0
   invincibleTime: 2

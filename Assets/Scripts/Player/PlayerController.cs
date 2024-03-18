@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject centerEmitter;
+    public GameObject leftEmitter;
+    public GameObject rightEmitter;
+    Player_Emitter_Body centerE;
+    PlayerEmitterEffect leftE;
+    PlayerEmitterEffect rightE;
+
     GameManager gamemanager;
+    public int power;
     public float movementSpeed;
+    public float autofireSpeed;
+    private float currentFire;
     private float currentSpeed;
     [SerializeField]
     private float invincibleTime;
@@ -18,6 +28,10 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         gamemanager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        centerE = centerEmitter.GetComponent<Player_Emitter_Body>();
+        leftE = leftEmitter.GetComponent<PlayerEmitterEffect>();
+        rightE = rightEmitter.GetComponent<PlayerEmitterEffect>();
+        currentFire = autofireSpeed;
         currentSpeed = movementSpeed;
 
         //spawn invulnerability
@@ -27,6 +41,58 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (currentFire > 0)
+        {
+            currentFire -= Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.Z))
+        {
+            if (currentFire <= 0)
+            {
+                currentFire = autofireSpeed;
+                if (power <= 10)
+                {
+                    centerE.p1_shot();
+                }
+                else if (power <= 20)
+                {
+                    centerE.p1_shot();
+                    leftE.p1_shot();
+                    rightE.p1_shot();
+                }
+                else if (power <= 30)
+                {
+                    centerE.p2_shot();
+                    leftE.p1_shot();
+                    rightE.p1_shot();
+                }
+                else if (power <= 40)
+                {
+                    centerE.p2_shot();
+                    leftE.p2_shot();
+                    rightE.p2_shot();
+                }
+                else if (power <= 50)
+                {
+                    centerE.p3_shot();
+                    leftE.p2_shot();
+                    rightE.p2_shot();
+                }
+                else if (power <= 60)
+                {
+                    centerE.p3_shot();
+                    leftE.p3_shot();
+                    rightE.p3_shot();
+                }
+                else
+                {
+                    centerE.p4_shot();
+                    leftE.p3_shot();
+                    rightE.p3_shot();
+                }
+            }
+        }
         //focus speed
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -59,6 +125,11 @@ public class PlayerController : MonoBehaviour
                 Destroy(this.gameObject);
                 gamemanager.lifedown();
             }
+        }
+        else if (col.tag == "PowerItem")
+        {
+            Destroy(col.gameObject);
+            power += 1;
         }
     }
 

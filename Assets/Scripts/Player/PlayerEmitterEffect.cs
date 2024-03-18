@@ -30,18 +30,6 @@ public class PlayerEmitterEffect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            p1_shot();
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            p2_shot();
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            p3_shot();
-        }
 
         if (Input.GetKey(KeyCode.LeftShift))
         {

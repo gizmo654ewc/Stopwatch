@@ -9,6 +9,7 @@ public class Enemy_Behavior : MonoBehaviour
     public GameObject route1;
     public GameObject route2;
     public GameObject route3;
+    public GameObject pointItem;
 
     private GameObject emitter;
     Emitter_Basic emitScript;
@@ -24,6 +25,7 @@ public class Enemy_Behavior : MonoBehaviour
 
     public ShotChoice shotChoice;
 
+    public int health;
     public float shotWait;
     public int shotsFired;
     public int coneShotNum;
@@ -115,7 +117,12 @@ public class Enemy_Behavior : MonoBehaviour
             Debug.Log("e_hit");
             Destroy(col.gameObject);
             StartCoroutine(Flicker());
-            //Destroy(this.transform.parent.gameObject);
+            health--;
+            if (health <= 0)
+            {
+                Instantiate(pointItem, transform.position, Quaternion.identity);
+                Destroy(this.transform.parent.gameObject);
+            }
         }
     }
 

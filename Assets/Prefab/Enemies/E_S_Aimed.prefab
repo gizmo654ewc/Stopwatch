@@ -123,8 +123,10 @@ MonoBehaviour:
   route1: {fileID: 2727056838502277989}
   route2: {fileID: 5541911213346189457}
   route3: {fileID: 1278956497986718379}
+  pointItem: {fileID: 1641196720534859686, guid: 19c79d12f52d9b24daa4fdf2f678451c, type: 3}
   sprite: {fileID: 4011575953681906526}
   shotChoice: 0
+  health: 0
   shotWait: 0
   shotsFired: 0
   coneShotNum: 0
@@ -282,6 +284,7 @@ MonoBehaviour:
   emitter: {fileID: 6956764560669533025}
   sprite: {fileID: 4011575953681906526}
   shotChoice: 0
+  health: 1
   ShotWait: 0.5
   TimesFired: 5
   Cone_Wideness: 40

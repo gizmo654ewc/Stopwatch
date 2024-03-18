@@ -1991,6 +1991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingLives: 4
+  power: 0
   respawnTime: 1
   playerPrefab: {fileID: 9083736985224399669, guid: cb548f1c492702b4eb3f6cdf4289c675, type: 3}
   lifeM: {fileID: 1231199979}
@@ -3448,6 +3449,10 @@ PrefabInstance:
       propertyPath: LM
       value: 
       objectReference: {fileID: 1231199979}
+    - target: {fileID: 1368244532182462928, guid: cb548f1c492702b4eb3f6cdf4289c675, type: 3}
+      propertyPath: autofireSpeed
+      value: 0.12
+      objectReference: {fileID: 0}
     - target: {fileID: 1368244532182462928, guid: cb548f1c492702b4eb3f6cdf4289c675, type: 3}
       propertyPath: invincibleTime
       value: 1.5

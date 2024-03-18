@@ -12,6 +12,7 @@ public class Enemy_Controller : MonoBehaviour
 
     public Enemy_Behavior.ShotChoice shotChoice;
 
+    public int health;
     public float ShotWait;
     public int TimesFired;
     public float Cone_Wideness;
@@ -24,6 +25,7 @@ public class Enemy_Controller : MonoBehaviour
     {
         behavior = enemy.GetComponent<Enemy_Behavior>();
         emitScript = emitter.GetComponent<Emitter_Basic>();
+        behavior.health = health;
         behavior.shotWait = ShotWait;
         behavior.shotsFired = TimesFired;
         behavior.coneWide = Cone_Wideness;

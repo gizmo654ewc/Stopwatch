@@ -3450,10 +3450,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1231199979}
     - target: {fileID: 1368244532182462928, guid: cb548f1c492702b4eb3f6cdf4289c675, type: 3}
-      propertyPath: autofireSpeed
-      value: 0.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1368244532182462928, guid: cb548f1c492702b4eb3f6cdf4289c675, type: 3}
       propertyPath: invincibleTime
       value: 1.5
       objectReference: {fileID: 0}

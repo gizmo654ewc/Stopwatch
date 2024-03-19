@@ -839,5 +839,5 @@ MonoBehaviour:
   rightEmitter: {fileID: 2111294017620699858}
   power: 0
   movementSpeed: 8
-  autofireSpeed: 0
+  autofireSpeed: 0.12
   invincibleTime: 2

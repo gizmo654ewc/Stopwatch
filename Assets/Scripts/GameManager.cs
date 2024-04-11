@@ -5,11 +5,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int startingLives;
-    [SerializeField]
-    private int power;
-    [SerializeField]
-    private float respawnTime;
+    public int power;
+    [SerializeField] private int time;
+    [SerializeField] private float respawnTime;
     private int currentLives;
+    [SerializeField] private GameObject powerUI;
+    private PowerCounter powerCounter;
+    [SerializeField] private GameObject timeUI;
+    private TimeCounter timeCounter;
+
 
     public GameObject playerPrefab;
     private GameObject player;
@@ -25,6 +29,9 @@ public class GameManager : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
         lifeManager = lifeM.GetComponent<LifeManager>();
         playerController.power = power;
+        playerController.time = time;
+        powerCounter = powerUI.GetComponent<PowerCounter>();
+        timeCounter = timeUI.GetComponent<TimeCounter>();
     }
 
     // Update is called once per frame
@@ -32,6 +39,9 @@ public class GameManager : MonoBehaviour
     {
         currentLives = lifeManager.life;
         power = playerController.power;
+        time = playerController.time;
+        powerCounter.power = power;
+        timeCounter.time = time;
         if (player != null)
         {
             position = player.transform.position;
@@ -49,7 +59,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(respawnTime);
         player = Instantiate(playerPrefab, position, Quaternion.identity);
         playerController = player.GetComponent<PlayerController>();
-        power = power - 10;
+        power = power - 6;
         playerController.power = power;
+        playerController.time = time;
     }
 }

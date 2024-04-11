@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     GameManager gamemanager;
     public int power;
+    public int time;
     public float movementSpeed;
     public float autofireSpeed;
     private float currentFire;
@@ -23,8 +25,18 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer sr;
 
+    private GameObject timeBomb;
+    TimeBombHandler timeBombHandler;
+
+    private GameObject scoreobj;
+    PointCounter score;
+
     void Start()
     {
+        scoreobj = GameObject.FindWithTag("ScoreOBJ");
+        score = scoreobj.GetComponent<PointCounter>();
+        timeBomb = GameObject.FindWithTag("TimeBombHandler");
+        timeBombHandler = timeBomb.GetComponent<TimeBombHandler>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         gamemanager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -37,13 +49,33 @@ public class PlayerController : MonoBehaviour
         //spawn invulnerability
         StartCoroutine(InvincibleFor());
         StartCoroutine(Flicker());
+
+        //stop timeslow when spawn
     }
 
     void Update()
     {
+        if (time > 30)
+        {
+            time = 30;
+        }
+        else if (time < 0)
+        {
+            time = 0;
+        }
+
         if (currentFire > 0)
         {
-            currentFire -= Time.deltaTime;
+            currentFire -= Time.unscaledDeltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (time >= 30)
+            {
+                time = 0;
+                StartCoroutine(timeBombHandler.StopWatch());
+            }
         }
 
         if (Input.GetKey(KeyCode.Z))
@@ -51,35 +83,35 @@ public class PlayerController : MonoBehaviour
             if (currentFire <= 0)
             {
                 currentFire = autofireSpeed;
-                if (power <= 10)
+                if (power <= 11)
                 {
                     centerE.p1_shot();
                 }
-                else if (power <= 20)
+                else if (power <= 23)
                 {
                     centerE.p1_shot();
                     leftE.p1_shot();
                     rightE.p1_shot();
                 }
-                else if (power <= 30)
+                else if (power <= 35)
                 {
                     centerE.p2_shot();
                     leftE.p1_shot();
                     rightE.p1_shot();
                 }
-                else if (power <= 40)
+                else if (power <= 47)
                 {
                     centerE.p2_shot();
                     leftE.p2_shot();
                     rightE.p2_shot();
                 }
-                else if (power <= 50)
+                else if (power <= 59)
                 {
                     centerE.p3_shot();
                     leftE.p2_shot();
                     rightE.p2_shot();
                 }
-                else if (power <= 60)
+                else if (power <= 71)
                 {
                     centerE.p3_shot();
                     leftE.p3_shot();
@@ -94,6 +126,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         //focus speed
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             currentSpeed = (movementSpeed * (float)0.55);
@@ -111,10 +144,26 @@ public class PlayerController : MonoBehaviour
 
         //movement
         Vector3 move = new Vector3(hInput, vInput, 0);
-        move = move.normalized * currentSpeed;
+        if (timeBombHandler.timeSlow)
+        {
+            move = move.normalized * currentSpeed * 3f;
+        }
+        else
+        {
+            move = move.normalized * currentSpeed;
+        }
         rb.velocity = move;
-    }
 
+        //power management
+        if (power < 0)
+        {
+            power = 0;
+        }
+        else if (power > 72)
+        {
+            power = 72;
+        }
+    }
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "EnemyShot")
@@ -130,6 +179,28 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(col.gameObject);
             power += 1;
+        }
+        else if (col.tag == "PowerItemBig")
+        {
+            Destroy(col.gameObject);
+            power += 5;
+        }
+        else if (col.tag == "TimeItem")
+        {
+            Destroy(col.gameObject);
+            time += 1;
+        }
+        else if (col.tag == "ScoreItem")
+        {
+            Destroy(col.gameObject);
+            if (timeBombHandler.timeSlow)
+            {
+                score.score += 1000;
+            }
+            else
+            {
+                score.score += 500;
+            }
         }
     }
 

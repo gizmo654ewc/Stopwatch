@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39747498df9e014594706388ce97a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawned_enemy: {fileID: 1816839367353811509, guid: a971084930febfa4d8376a9cc482eb02, type: 3}
+  spawnline: {fileID: 0}
+  spawned_enemy: {fileID: 0}
 --- !u!61 &7643690141388554311
 BoxCollider2D:
   m_ObjectHideFlags: 0

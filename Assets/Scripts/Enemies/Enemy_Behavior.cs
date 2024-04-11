@@ -1,15 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.U2D;
+using static UnityEngine.GraphicsBuffer;
 
 public class Enemy_Behavior : MonoBehaviour
 {
+    public enum MoveChoice
+    {
+        StopAndShoot,
+        ShootWhileMove,
+    };
+
+    public MoveChoice moveChoice;
+
     public GameObject route1;
     public GameObject route2;
     public GameObject route3;
+
     public GameObject pointItem;
+    public GameObject timeItem;
+    public GameObject scoreItem;
+
+    private GameObject gm;
+    GameManager gmscript;
 
     private GameObject emitter;
     Emitter_Basic emitScript;
@@ -20,7 +36,10 @@ public class Enemy_Behavior : MonoBehaviour
     {
         Aimed,
         Around,
-        Cone
+        Cone,
+        Static,
+        Spin,
+        SpinReverse
     };
 
     public ShotChoice shotChoice;
@@ -30,6 +49,11 @@ public class Enemy_Behavior : MonoBehaviour
     public int shotsFired;
     public int coneShotNum;
     public float coneWide;
+    public float staticDirection;
+    public int spinDeg;
+    public int spinSpeed;
+
+    private float currwait;
 
     private bool route1_complete = false;
     public bool shooting_complete = false;
@@ -42,9 +66,17 @@ public class Enemy_Behavior : MonoBehaviour
     public float durationEnter;
     public float durationLeave;
 
+    private GameObject scoreobj;
+    PointCounter score;
+
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameObject.Find("GameManager");
+        gmscript = gm.GetComponent<GameManager>();
+        scoreobj = GameObject.FindWithTag("ScoreOBJ");
+        score = scoreobj.GetComponent<PointCounter>();
+        currwait = 1;
         startTime = Time.time;
         emitter = transform.GetChild(1).gameObject;
         emitScript = emitter.GetComponent<Emitter_Basic>();
@@ -55,37 +87,52 @@ public class Enemy_Behavior : MonoBehaviour
     void Update()
     {
         var step = speed * Time.deltaTime;
-        if (!route1_complete)
+        if (moveChoice == MoveChoice.ShootWhileMove)
         {
-            //lerp=smoothed, adding the vector makes the enemy activate sooner
-            //transform.position = Vector2.Lerp(transform.position, route2.transform.position + new Vector3(0, -0.006f), step);
-
-            //nonsmoothed
-            //transform.position = Vector3.MoveTowards(transform.position, route2.transform.position, step);
-
-            //smoothstep = aim to smooth just the beginning and end of movement
-            float t = (Time.time - startTime) / durationEnter;
-            transform.position = new Vector3(Mathf.SmoothStep(route1.transform.position.x, route2.transform.position.x, t), Mathf.SmoothStep(route1.transform.position.y, route2.transform.position.y, t), 0);
-
-            if (transform.position.y == route2.transform.position.y)
+            if (currwait > 0)
             {
-                route1_complete = true;
+                currwait -= Time.deltaTime;
+            }
+            else
+            {
+                currwait = shotWait * shotsFired;
+                StartCoroutine(Shoot(shotWait, shotsFired));
+            }
+
+            transform.position = Vector2.MoveTowards(transform.position, route2.transform.position, step);
+            if (transform.position == route2.transform.position)
+            {
+                Destroy(this.transform.parent.gameObject);
             }
         }
-        if (route1_complete && !stop_shooting)
+        else if (moveChoice == MoveChoice.StopAndShoot)
         {
-            StartCoroutine(Shoot(shotWait, shotsFired));
-            stop_shooting = true;
-        }
-        if (route1_complete && shooting_complete)
-        {
-            if (check == false)
+            if (!route1_complete)
             {
-                startTime2 = Time.time;
-                check = true;
+                float t = (Time.time - startTime) / durationEnter;
+                transform.position = new Vector3(Mathf.SmoothStep(route1.transform.position.x, route2.transform.position.x, t), Mathf.SmoothStep(route1.transform.position.y, route2.transform.position.y, t), 0);
+
+                if ((transform.position.x > route2.transform.position.x + 0.05 ^ transform.position.x > route2.transform.position.x - 0.05) && (transform.position.y > route2.transform.position.y + 0.05 ^ transform.position.y > route2.transform.position.y - 0.05)) 
+                {
+                    transform.position = route2.transform.position;
+                    route1_complete = true;
+                }
             }
-            float t2 = (Time.time - startTime2) / durationLeave;
-            transform.position = new Vector3(Mathf.SmoothStep(route2.transform.position.x, route3.transform.position.x, t2), Mathf.SmoothStep(route2.transform.position.y, route3.transform.position.y, t2), 0);
+            if (route1_complete && !stop_shooting)
+            {
+                StartCoroutine(Shoot(shotWait, shotsFired));
+                stop_shooting = true;
+            }
+            if (route1_complete && shooting_complete)
+            {
+                if (check == false)
+                {
+                    startTime2 = Time.time;
+                    check = true;
+                }
+                float t2 = (Time.time - startTime2) / durationLeave;
+                transform.position = new Vector3(Mathf.SmoothStep(route2.transform.position.x, route3.transform.position.x, t2), Mathf.SmoothStep(route2.transform.position.y, route3.transform.position.y, t2), 0);
+            }
         }
     }
     IEnumerator Shoot(float wait, int num)
@@ -104,6 +151,25 @@ public class Enemy_Behavior : MonoBehaviour
             {
                 emitScript.S_AimedCone(coneWide, coneShotNum);
             }
+            else if (shotChoice == ShotChoice.Static)
+            {
+                emitScript.S_Static(staticDirection, coneShotNum, coneWide);
+            }
+            else if (shotChoice == ShotChoice.Spin)
+            {
+                StartCoroutine(Spin(spinDeg, spinSpeed));
+            }
+            else if (shotChoice == ShotChoice.SpinReverse)
+            {
+                if (i % 2 == 0) 
+                {
+                    StartCoroutine(Spin(spinDeg, spinSpeed));
+                }
+                else
+                {
+                    StartCoroutine(Spin(spinDeg, -spinSpeed));
+                }
+            }
             yield return new WaitForSeconds(wait);
         }
         yield return new WaitForSeconds(2f);
@@ -120,7 +186,16 @@ public class Enemy_Behavior : MonoBehaviour
             health--;
             if (health <= 0)
             {
-                Instantiate(pointItem, transform.position, Quaternion.identity);
+                score.score += 100;
+                if (gmscript.power < 72)
+                {
+                    Instantiate(pointItem, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(scoreItem, transform.position, Quaternion.identity);
+                }
+                Instantiate(timeItem, transform.position, Quaternion.identity);
                 Destroy(this.transform.parent.gameObject);
             }
         }
@@ -131,5 +206,14 @@ public class Enemy_Behavior : MonoBehaviour
         sprite.GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(.04f);
         sprite.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    IEnumerator Spin(int spinDeg, int spinSpeed)
+    {
+        for (int i = 0; Math.Abs(i) < spinDeg; i+=spinSpeed)
+        {
+            emitScript.S_Static(i, 1, 0);
+            yield return new WaitForSeconds(0.02f);
+        }
     }
 }

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1162179615910120391}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.367, z: 0}
+  m_LocalPosition: {x: 0, y: 0.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotPrefab: {fileID: 6495857313214597600, guid: c6921745a254a0841a1d9cadc2b109f5, type: 3}
-  shotSpeed: 20
+  slowedshotPrefab: {fileID: 6495857313214597600, guid: 34c788df597444147b69cc5d55b4143e, type: 3}
 --- !u!1 &1434320936910682865
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,6 +243,7 @@ MonoBehaviour:
   left: {fileID: 5324890651828755080}
   right: {fileID: 1845656945872508887}
   shotPrefab: {fileID: 6593056861568678187, guid: e8855a36250dd0d498fdd50d50fd05f8, type: 3}
+  slowedshotPrefab: {fileID: 6593056861568678187, guid: 36fb48bb2ac4d8f45a9a2d554f03cee7, type: 3}
   shotSpeed: 20
   rightside: 1
   unPosL: {fileID: 0}
@@ -477,6 +478,7 @@ MonoBehaviour:
   left: {fileID: 1434320936910682865}
   right: {fileID: 2034326330082992256}
   shotPrefab: {fileID: 6593056861568678187, guid: e8855a36250dd0d498fdd50d50fd05f8, type: 3}
+  slowedshotPrefab: {fileID: 6593056861568678187, guid: 36fb48bb2ac4d8f45a9a2d554f03cee7, type: 3}
   shotSpeed: 20
   rightside: 0
   unPosL: {fileID: 6323483393302151867}
@@ -654,7 +656,6 @@ GameObject:
   - component: {fileID: 5390247450088591984}
   - component: {fileID: 5428409681609775476}
   - component: {fileID: 1538929279626632975}
-  - component: {fileID: 5839874938808953852}
   - component: {fileID: 1368244532182462928}
   m_Layer: 0
   m_Name: Player
@@ -807,21 +808,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &5839874938808953852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9083736985224399669}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d99895c615b6c494cb1ba30952de8c70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shotPrefab: {fileID: 3396970044425356619, guid: ef78374ad8708cf4fa195f6769f250e4, type: 3}
-  movementSpeed: 8
-  autofireSpeed: 0.1
 --- !u!114 &1368244532182462928
 MonoBehaviour:
   m_ObjectHideFlags: 0

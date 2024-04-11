@@ -76,10 +76,29 @@ public class Emitter_Basic : MonoBehaviour
             }
         }
     }
-    public void S_Circle(int num)
+    public void S_Static(float dir, int num, float range)
     {
-        S_AimedCone(360, num);
-        
+        if (num < 0)
+        {
+            Debug.Log("You cannot shoot negative bullets");
+        }
+        else if (num == 1)
+        {
+            aimedShot = Instantiate(shot1, (transform.position), Quaternion.identity);
+            shotScript = aimedShot.GetComponent<ES_Basic>();
+            shotScript.speed = speed;
+            shotScript.Static(dir);
+        }
+        else
+        {
+            for (int i = 0; i < num; i++)
+            {
+                aimedShot = Instantiate(shot1, (transform.position), Quaternion.identity);
+                shotScript = aimedShot.GetComponent<ES_Basic>();
+                shotScript.speed = speed;
+                shotScript.Static((range / (num - 1)) * i - (range / 2) + dir);
+            }
+        }
     }
 
 }

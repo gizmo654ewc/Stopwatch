@@ -8,6 +8,11 @@ TagManager:
   - PlayerShot
   - Wall
   - PowerItem
+  - PowerItemBig
+  - TimeBombHandler
+  - TimeItem
+  - ScoreItem
+  - ScoreOBJ
   layers:
   - Default
   - TransparentFX

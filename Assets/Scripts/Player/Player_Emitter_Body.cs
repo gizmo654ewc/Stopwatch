@@ -6,28 +6,40 @@ using UnityEngine;
 public class Player_Emitter_Body : MonoBehaviour
 {
     public GameObject shotPrefab;
+    public GameObject slowedshotPrefab;
     PlayerMainShotScript shotscript;
     private GameObject shot;
-    public float shotSpeed;
+    private GameObject currentShot;
+
+    private GameObject timeBomb;
+    TimeBombHandler timeBombHandler;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        currentShot = shotPrefab;
+        timeBomb = GameObject.FindWithTag("TimeBombHandler");
+        timeBombHandler = timeBomb.GetComponent<TimeBombHandler>();
     }
 
     private void Update()
     {
-
+        if (timeBombHandler.timeSlow)
+        {
+            currentShot = slowedshotPrefab;
+        }
+        else
+        {
+            currentShot = shotPrefab;
+        }
     }
 
     //shots, increasing in amount and cone shot in as power increases
     public void p1_shot()
     {
-        shot = Instantiate(shotPrefab, (transform.position), Quaternion.identity);
+        shot = Instantiate(currentShot, transform.position, Quaternion.identity);
         shotscript = shot.GetComponent<PlayerMainShotScript>();
-        shotscript.shotSpeed = shotSpeed;
-        shotscript.Shoot(0);
+        shotscript.deg = 0;
     }
     public void p2_shot()
     {
@@ -35,10 +47,9 @@ public class Player_Emitter_Body : MonoBehaviour
         int num = 2;
         for (int i = 0; i < num; i++)
         {
-            shot = Instantiate(shotPrefab, (transform.position), Quaternion.identity);
+            shot = Instantiate(currentShot, transform.position, Quaternion.identity);
             shotscript = shot.GetComponent<PlayerMainShotScript>();
-            shotscript.shotSpeed = shotSpeed;
-            shotscript.Shoot((range / (num - 1)) * i - (range / 2));
+            shotscript.deg = (range / (num - 1)) * i - (range / 2);
         }
     }
     public void p3_shot()
@@ -47,10 +58,9 @@ public class Player_Emitter_Body : MonoBehaviour
         int num = 3;
         for (int i = 0; i < num; i++)
         {
-            shot = Instantiate(shotPrefab, (transform.position), Quaternion.identity);
+            shot = Instantiate(currentShot, transform.position, Quaternion.identity);
             shotscript = shot.GetComponent<PlayerMainShotScript>();
-            shotscript.shotSpeed = shotSpeed;
-            shotscript.Shoot((range / (num - 1)) * i - (range / 2));
+            shotscript.deg = (range / (num - 1)) * i - (range / 2);
         }
     }
     public void p4_shot()
@@ -59,10 +69,9 @@ public class Player_Emitter_Body : MonoBehaviour
         int num = 5;
         for (int i = 0; i < num; i++)
         {
-            shot = Instantiate(shotPrefab, (transform.position), Quaternion.identity);
+            shot = Instantiate(currentShot, transform.position, Quaternion.identity);
             shotscript = shot.GetComponent<PlayerMainShotScript>();
-            shotscript.shotSpeed = shotSpeed;
-            shotscript.Shoot((range / (num - 1)) * i - (range / 2));
+            shotscript.deg = (range / (num - 1)) * i - (range / 2);
         }
     }
 

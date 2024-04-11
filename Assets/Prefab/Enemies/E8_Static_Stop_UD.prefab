@@ -120,10 +120,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfcc395eff020de44bdfcc94a20c2234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveChoice: 0
   route1: {fileID: 2727056838502277989}
   route2: {fileID: 5541911213346189457}
   route3: {fileID: 1278956497986718379}
   pointItem: {fileID: 1641196720534859686, guid: 19c79d12f52d9b24daa4fdf2f678451c, type: 3}
+  timeItem: {fileID: 1641196720534859686, guid: be671b54e28ce19459b493b4513349f9, type: 3}
+  scoreItem: {fileID: 1641196720534859686, guid: 648a6fe1fe449274bb046f2e2f398d9a, type: 3}
   sprite: {fileID: 4011575953681906526}
   shotChoice: 0
   health: 0
@@ -131,6 +134,7 @@ MonoBehaviour:
   shotsFired: 0
   coneShotNum: 0
   coneWide: 0
+  staticDirection: 0
   shooting_complete: 0
   speed: 0
   durationEnter: 0
@@ -231,7 +235,7 @@ GameObject:
   - component: {fileID: 4645804171858433047}
   - component: {fileID: 4963591103885730618}
   m_Layer: 0
-  m_Name: E_S_Aimed
+  m_Name: E8_Static_Stop_UD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -283,15 +287,18 @@ MonoBehaviour:
   enemy: {fileID: 404445834640381553}
   emitter: {fileID: 6956764560669533025}
   sprite: {fileID: 4011575953681906526}
-  shotChoice: 0
-  health: 1
+  shotChoice: 3
+  moveChoice: 0
+  health: 6
+  speed: 0
   ShotWait: 0.5
-  TimesFired: 5
-  Cone_Wideness: 40
-  ConeShotNum: 3
-  Shot_Speed: 10
-  Speed_Entering: 1.5
-  Speed_Exiting: 3.5
+  TimesFired: 4
+  staticDirection: 0
+  Cone_Wideness: 6
+  ConeShotNum: 1
+  Shot_Speed: 7
+  Speed_Entering: 1.3
+  Speed_Exiting: 2
 --- !u!1 &2727056838502277989
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04abe3df856bd0045bf3a3131ceb8758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shot1: {fileID: 2850497663176160552, guid: 93e1d3e4c759dc54c9d36554a6e80516, type: 3}
+  shot1: {fileID: 1664279921120613690, guid: 5cdbc49c053065743a789490f18f3317, type: 3}
   range: 30
   num: 4
   speed: 0

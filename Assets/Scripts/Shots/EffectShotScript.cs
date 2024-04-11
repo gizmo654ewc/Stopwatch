@@ -16,10 +16,7 @@ public class EffectShotScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Shoot();
-        }
+        transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.up * shotSpeed * Time.unscaledDeltaTime;
     }
 
     public void Shoot()

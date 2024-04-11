@@ -71,6 +71,16 @@ public class ES_Basic : MonoBehaviour
         }
     }
 
+    //static shots, not aimed at player, specified by degrees from the down vector
+    public void Static(float deg)
+    {
+        rb = GetComponent<Rigidbody2D>();
+        Quaternion rotate = Quaternion.Euler(0, 0, deg);
+        adjustedVec = rotate * Vector2.down;
+        shotVel = adjustedVec * speed;
+        rb.velocity = shotVel;
+    }
+
     //destroys the bullets when offscreen
     void OnBecameInvisible()
     {

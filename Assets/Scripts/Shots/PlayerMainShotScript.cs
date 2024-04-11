@@ -11,26 +11,22 @@ public class PlayerMainShotScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Shoot(deg);
-        }
+        Vector2 adjustedVec = Quaternion.Euler(0, 0, deg) * Vector2.up;
+        transform.position = new Vector2(transform.position.x, transform.position.y) + (adjustedVec * shotSpeed) * Time.unscaledDeltaTime;
     }
 
     public void Shoot(float deg)
     {
         rb = GetComponent<Rigidbody2D>();
-        Quaternion rotate = Quaternion.Euler(0, 0, deg);
-        Vector2 adjustedVec = rotate * Vector2.up;
-        adjustedVec.Normalize();
+        Vector2 adjustedVec = Quaternion.Euler(0, 0, deg) * Vector2.up;
         rb.velocity = adjustedVec * shotSpeed;
-        transform.rotation = transform.rotation * rotate;
+        transform.rotation = transform.rotation * Quaternion.Euler(0, 0, deg);
     }
     void OnBecameInvisible()
     {

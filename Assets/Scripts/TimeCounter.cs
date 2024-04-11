@@ -7,24 +7,38 @@ public class TimeCounter : MonoBehaviour
 {
     public int time = 0;
     private TMP_Text textcomp;
+
+    private GameObject player;
+    PlayerController playerController;
+
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
         textcomp = GetComponent<TMP_Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (time >= 30)
+        if (player != null)
         {
-            textcomp.color = Color.magenta;
-            textcomp.text = "Stopwatch: READY";
+            playerController = player.GetComponent<PlayerController>();
+            if (time >= playerController.timeMax)
+            {
+                textcomp.color = Color.magenta;
+                textcomp.text = "Stopwatch: READY";
+            }
+            else
+            {
+                textcomp.color = Color.white;
+                textcomp.text = "Stopwatch: " + time + "/" + playerController.timeMax;
+            }
         }
         else
         {
-            textcomp.color = Color.white;
-            textcomp.text = "Stopwatch: " + time;
+            player = GameObject.FindWithTag("Player");
         }
     }
 }

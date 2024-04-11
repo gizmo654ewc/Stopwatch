@@ -303,6 +303,8 @@ MonoBehaviour:
   coneShotNum: 0
   coneWide: 0
   staticDirection: 0
+  spinDeg: 0
+  spinSpeed: 0
   shooting_complete: 0
   speed: 0
   durationEnter: 0
@@ -553,11 +555,13 @@ MonoBehaviour:
   sprite: {fileID: 6308290961976241903}
   shotChoice: 0
   moveChoice: 1
-  health: 2
+  health: 1
   speed: 7
   ShotWait: 0.8
   TimesFired: 4
   staticDirection: 0
+  spinDeg: 0
+  spinSpeed: 0
   Cone_Wideness: 3
   ConeShotNum: 2
   Shot_Speed: 5

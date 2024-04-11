@@ -16,9 +16,17 @@ public class ES_Basic : MonoBehaviour
     private Vector2 adjustedVec;
     private Quaternion rotate;
 
+    //for circledestroy
+    private GameObject tbhObj;
+    TimeBombHandler tbh;
+    public bool inCricle = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        tbhObj = GameObject.FindWithTag("TimeBombHandler");
+        tbh = tbhObj.GetComponent<TimeBombHandler>();
+
         player = GameObject.FindWithTag("Player");
         if (player == null)
         {
@@ -29,10 +37,12 @@ public class ES_Basic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // for testing aimed
-        if (Input.GetKeyDown(KeyCode.A))
+        if (tbh.circleDelete)
         {
-            Aimed();
+            if (inCricle)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 

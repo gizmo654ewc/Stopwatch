@@ -5,6 +5,7 @@ using UnityEngine;
 public class TimeBombHandler : MonoBehaviour
 {
     public bool timeSlow = false;
+    public bool circleDelete = false;
     private GameObject player;
     // Start is called before the first frame update
     void Start()
@@ -28,13 +29,18 @@ public class TimeBombHandler : MonoBehaviour
         else
         {
             Time.timeScale = 1;
+            circleDelete = false;
         }
     }
 
     public IEnumerator StopWatch()
     {
         timeSlow = true;
-        yield return new WaitForSecondsRealtime(5f);
+        circleDelete = true;
+        yield return new WaitForSecondsRealtime(0.1f);
+        circleDelete = false;
+        yield return new WaitForSecondsRealtime(4.9f);
+        circleDelete = false;
         timeSlow = false;
     }
 }

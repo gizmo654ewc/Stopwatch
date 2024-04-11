@@ -7561,6 +7561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeSlow: 0
+  circleDelete: 0
 --- !u!4 &558339745
 Transform:
   m_ObjectHideFlags: 0
@@ -13782,7 +13783,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -137.5, y: 289.3}
+  m_AnchoredPosition: {x: -183.7, y: 289.3}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1106504610
@@ -15211,6 +15212,7 @@ MonoBehaviour:
   lifeSprite: {fileID: 746855958868645994, guid: eda4412e9ac6cd249ba2e0e662c9c3a5, type: 3}
   life: 0
   gameManager: {fileID: 1254663045}
+  pointCounter: {fileID: 1106504608}
 --- !u!1001 &1232289084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15601,7 +15603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingLives: 4
-  power: 72
+  power: 0
   time: 0
   respawnTime: 1
   powerUI: {fileID: 1880153132}
@@ -16351,7 +16353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Stopwatch: 0'
+  m_text: 'Stopwatch: 0 / 30'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}

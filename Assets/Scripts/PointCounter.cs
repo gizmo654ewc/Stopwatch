@@ -7,6 +7,7 @@ public class PointCounter : MonoBehaviour
 {
     public int score = 0;
     private TMP_Text textcomp;
+
     // Start is called before the first frame update
     void Start()
     {

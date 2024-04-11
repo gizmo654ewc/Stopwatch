@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float invincibleTime;
     private bool invincible = true;
+
     Rigidbody2D rb;
     SpriteRenderer sr;
 
@@ -31,8 +32,14 @@ public class PlayerController : MonoBehaviour
     private GameObject scoreobj;
     PointCounter score;
 
+    public int timeMax = 30;
+
+    public GameObject clockEffect;
+    public GameObject brokenClockEffect;
+
     void Start()
     {
+        //getting components
         scoreobj = GameObject.FindWithTag("ScoreOBJ");
         score = scoreobj.GetComponent<PointCounter>();
         timeBomb = GameObject.FindWithTag("TimeBombHandler");
@@ -43,21 +50,21 @@ public class PlayerController : MonoBehaviour
         centerE = centerEmitter.GetComponent<Player_Emitter_Body>();
         leftE = leftEmitter.GetComponent<PlayerEmitterEffect>();
         rightE = rightEmitter.GetComponent<PlayerEmitterEffect>();
+
+        //fire speed stuff
         currentFire = autofireSpeed;
         currentSpeed = movementSpeed;
 
         //spawn invulnerability
         StartCoroutine(InvincibleFor());
         StartCoroutine(Flicker());
-
-        //stop timeslow when spawn
     }
 
     void Update()
     {
-        if (time > 30)
+        if (time > timeMax)
         {
-            time = 30;
+            time = timeMax;
         }
         else if (time < 0)
         {
@@ -71,9 +78,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            if (time >= 30)
+            if (time >= timeMax)
             {
                 time = 0;
+                Instantiate(clockEffect, transform.position, Quaternion.identity);
                 StartCoroutine(timeBombHandler.StopWatch());
             }
         }
@@ -171,8 +179,18 @@ public class PlayerController : MonoBehaviour
             Destroy(col.gameObject);
             if (!invincible)
             {
-                Destroy(this.gameObject);
-                gamemanager.lifedown();
+                if (time == timeMax)
+                {
+                    timeMax += 20;
+                    time = 0;
+                    Instantiate(brokenClockEffect, transform.position, Quaternion.identity);
+                    StartCoroutine(timeBombHandler.StopWatch());
+                }
+                else
+                {
+                    Destroy(this.gameObject);
+                    gamemanager.lifedown();
+                }
             }
         }
         else if (col.tag == "PowerItem")

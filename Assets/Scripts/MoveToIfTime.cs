@@ -8,6 +8,8 @@ public class MoveToIfTime : MonoBehaviour
     [SerializeField] float speed;
     private Vector2 fromTo;
 
+    public float autoCollectDistance;
+
     private GameObject timeBomb;
     TimeBombHandler timeBombHandler;
 
@@ -34,6 +36,18 @@ public class MoveToIfTime : MonoBehaviour
                 fromTo.Normalize();
                 transform.position = new Vector2(transform.position.x, transform.position.y) + fromTo * speed * Time.unscaledDeltaTime;
             }
+        }
+        if (player != null)
+        {
+            fromTo = player.transform.position - transform.position;
+            if (fromTo.magnitude < autoCollectDistance)
+            {
+                transform.position = new Vector2(transform.position.x, transform.position.y) + fromTo * speed * Time.unscaledDeltaTime;
+            }
+        }
+        else
+        {
+            player = GameObject.FindWithTag("Player");
         }
     }
 }

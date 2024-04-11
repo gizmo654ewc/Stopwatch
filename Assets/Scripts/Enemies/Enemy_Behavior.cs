@@ -180,7 +180,6 @@ public class Enemy_Behavior : MonoBehaviour
     {
         if (col.tag == "PlayerShot")
         {
-            Debug.Log("e_hit");
             Destroy(col.gameObject);
             StartCoroutine(Flicker());
             health--;

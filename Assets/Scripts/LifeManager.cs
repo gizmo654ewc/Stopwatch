@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class LifeManager : MonoBehaviour
 {
@@ -9,12 +10,20 @@ public class LifeManager : MonoBehaviour
     public GameObject gameManager;
     GameManager gm;
 
+    private bool ex1 = false;
+    private bool ex2 = false;
+
+    public GameObject pointCounter;
+    PointCounter pcscript;
+
     //life list = important to retrieve instantiate objects
     private List<GameObject> lifeList = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
+        pcscript = pointCounter.GetComponent<PointCounter>();
+
         //instantiate # of lives on screen
         gm = gameManager.GetComponent<GameManager>();
         life = gm.startingLives;
@@ -35,6 +44,25 @@ public class LifeManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Equals))
         {
             lifeadd();
+        }
+
+        if (!ex1)
+        {
+            if (pcscript.score >= 100000)
+            {
+                Debug.Log("EXTEND==");
+                lifeadd();
+                ex1 = true;
+            }
+        }
+        if (!ex2)
+        {
+            if (pcscript.score >= 300000)
+            {
+                Debug.Log("EXTEND==");
+                lifeadd();
+                ex2 = true;
+            }
         }
     }
 

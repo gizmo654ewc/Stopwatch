@@ -9,8 +9,6 @@ public class Emitter_Basic : MonoBehaviour
     public GameObject shot1;
     ES_Basic shotScript;
     private GameObject aimedShot;
-    public float range;
-    public int num;
     public float speed;
 
     // Start is called before the first frame update

@@ -21,9 +21,13 @@ public class ES_Basic : MonoBehaviour
     TimeBombHandler tbh;
     public bool inCricle = false;
 
+    //audio
+    [SerializeField] private AudioSource shotSound;
+
     // Start is called before the first frame update
     void Start()
     {
+        shotSound.Play();
         tbhObj = GameObject.FindWithTag("TimeBombHandler");
         tbh = tbhObj.GetComponent<TimeBombHandler>();
 
@@ -32,6 +36,8 @@ public class ES_Basic : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        StartCoroutine(WaitAndDelete());
     }
 
     // Update is called once per frame
@@ -95,5 +101,14 @@ public class ES_Basic : MonoBehaviour
     void OnBecameInvisible()
     {
         Destroy(this.gameObject);
+    }
+
+    IEnumerator WaitAndDelete()
+    {
+        yield return new WaitForSeconds(1f);
+        if (rb.velocity == Vector2.zero)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

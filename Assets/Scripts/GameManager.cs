@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class GameManager : MonoBehaviour
     public GameObject lifeM;
     LifeManager lifeManager;
     Vector2 position;
+
+    //audio
+    [SerializeField] private AudioSource dieSource;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +54,7 @@ public class GameManager : MonoBehaviour
 
     public void lifedown()
     {
+        dieSource.Play();
         lifeManager.lifeminus();
         StartCoroutine(Revive());
     }
@@ -57,10 +62,24 @@ public class GameManager : MonoBehaviour
     IEnumerator Revive()
     {
         yield return new WaitForSeconds(respawnTime);
-        player = Instantiate(playerPrefab, position, Quaternion.identity);
-        playerController = player.GetComponent<PlayerController>();
-        power = power - 6;
-        playerController.power = power;
-        playerController.time = time;
+        if (currentLives < 1)
+        {
+            SceneManager.LoadScene(4);
+        }
+        else
+        {
+            if (GameObject.FindWithTag("Player") == null)
+            {
+                player = Instantiate(playerPrefab, position, Quaternion.identity);
+                playerController = player.GetComponent<PlayerController>();
+                power = power - 6;
+                playerController.power = power;
+                playerController.time = time;
+            }
+            else
+            {
+                Debug.Log("bs");
+            }
+        }
     }
 }

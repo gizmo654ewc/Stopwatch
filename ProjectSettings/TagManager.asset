@@ -13,6 +13,12 @@ TagManager:
   - TimeItem
   - ScoreItem
   - ScoreOBJ
+  - ScreenShine
+  - Health
+  - TimeItemBig
+  - ExplosionPoints
+  - DataStorage
+  - Music
   layers:
   - Default
   - TransparentFX

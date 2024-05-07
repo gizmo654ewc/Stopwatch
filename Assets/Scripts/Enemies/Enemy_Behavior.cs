@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.U2D;
 using static UnityEngine.GraphicsBuffer;
@@ -16,6 +15,7 @@ public class Enemy_Behavior : MonoBehaviour
 
     public MoveChoice moveChoice;
 
+
     public GameObject route1;
     public GameObject route2;
     public GameObject route3;
@@ -23,6 +23,8 @@ public class Enemy_Behavior : MonoBehaviour
     public GameObject pointItem;
     public GameObject timeItem;
     public GameObject scoreItem;
+
+    public GameObject explosion;
 
     private GameObject gm;
     GameManager gmscript;
@@ -172,7 +174,7 @@ public class Enemy_Behavior : MonoBehaviour
             }
             yield return new WaitForSeconds(wait);
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.3f);
         shooting_complete = true;
     }
 
@@ -183,7 +185,7 @@ public class Enemy_Behavior : MonoBehaviour
             Destroy(col.gameObject);
             StartCoroutine(Flicker());
             health--;
-            if (health <= 0)
+            if (health == 0)
             {
                 score.score += 100;
                 if (gmscript.power < 72)
@@ -196,6 +198,7 @@ public class Enemy_Behavior : MonoBehaviour
                 }
                 Instantiate(timeItem, transform.position, Quaternion.identity);
                 Destroy(this.transform.parent.gameObject);
+                Instantiate(explosion, transform.position, Quaternion.identity);
             }
         }
     }

@@ -5,6 +5,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //datastorage
+    private GameObject dataStorage;
+    private DataStorage ds;
+    private bool stopwatched = false;
+
+    //audio
+    [SerializeField] AudioSource shootSource;
+    [SerializeField] AudioSource bombSource;
+
+
+    private GameObject pressX;
+    private SpriteRenderer pressXsR;
+
+    public Animator animator;
+
+    private GameObject screenShine;
+    TimeEffect te;
+
     public GameObject centerEmitter;
     public GameObject leftEmitter;
     public GameObject rightEmitter;
@@ -33,12 +51,23 @@ public class PlayerController : MonoBehaviour
     PointCounter score;
 
     public int timeMax = 30;
+    private bool timeBlink = false;
 
     public GameObject clockEffect;
     public GameObject brokenClockEffect;
+    public GameObject shine;
+    private shineScript ss;
 
     void Start()
     {
+        //datas
+        dataStorage = GameObject.FindWithTag("DataStorage");
+        ds = dataStorage.GetComponent<DataStorage>();
+        stopwatched = ds.stopwatchUsed;
+
+        pressX = GameObject.Find("PressX");
+        pressXsR = pressX.GetComponent<SpriteRenderer>();
+
         //getting components
         scoreobj = GameObject.FindWithTag("ScoreOBJ");
         score = scoreobj.GetComponent<PointCounter>();
@@ -50,6 +79,9 @@ public class PlayerController : MonoBehaviour
         centerE = centerEmitter.GetComponent<Player_Emitter_Body>();
         leftE = leftEmitter.GetComponent<PlayerEmitterEffect>();
         rightE = rightEmitter.GetComponent<PlayerEmitterEffect>();
+        ss = shine.GetComponent<shineScript>();
+        screenShine = GameObject.FindWithTag("ScreenShine");
+        te = screenShine.GetComponent<TimeEffect>();
 
         //fire speed stuff
         currentFire = autofireSpeed;
@@ -62,9 +94,23 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (time > timeMax)
+        if (stopwatched)
         {
+
+        }
+        if (time >= timeMax)
+        {
+            if (!timeBlink)
+            {
+                StartCoroutine(FlickerPurple());
+                timeBlink = true;
+                ss.glow = true;
+            }
             time = timeMax;
+            if (!stopwatched)
+            {
+                pressXsR.color = Color.white;
+            }
         }
         else if (time < 0)
         {
@@ -81,8 +127,18 @@ public class PlayerController : MonoBehaviour
             if (time >= timeMax)
             {
                 time = 0;
+                timeBlink = false;
+                ss.glow = false;
+                te.a = .5f;
                 Instantiate(clockEffect, transform.position, Quaternion.identity);
                 StartCoroutine(timeBombHandler.StopWatch());
+                bombSource.Play();
+                if (!stopwatched)
+                {
+                    pressXsR.color = new Color(0f, 0f, 0f, 0f);
+                    stopwatched = true;
+                    ds.stopwatchUsed = true;
+                }
             }
         }
 
@@ -90,6 +146,7 @@ public class PlayerController : MonoBehaviour
         {
             if (currentFire <= 0)
             {
+                shootSource.Play();
                 currentFire = autofireSpeed;
                 if (power <= 11)
                 {
@@ -150,6 +207,17 @@ public class PlayerController : MonoBehaviour
         //get the Input from Vertical axis
         float vInput = Input.GetAxisRaw("Vertical");
 
+        //animator
+        animator.SetFloat("Speed", Mathf.Abs(hInput));
+        if (hInput < 0)
+        {
+            sr.flipX = true;
+        }
+        else
+        {
+            sr.flipX = false;
+        }
+
         //movement
         Vector3 move = new Vector3(hInput, vInput, 0);
         if (timeBombHandler.timeSlow)
@@ -183,8 +251,15 @@ public class PlayerController : MonoBehaviour
                 {
                     timeMax += 20;
                     time = 0;
+                    timeBlink = false;
+                    ss.glow = false;
+                    te.a = .5f;
+                    bombSource.Play();
                     Instantiate(brokenClockEffect, transform.position, Quaternion.identity);
                     StartCoroutine(timeBombHandler.StopWatch());
+                    pressXsR.color = new Color(0f, 0f, 0f, 0f);
+                    stopwatched = true;
+                    ds.stopwatchUsed = true;
                 }
                 else
                 {
@@ -207,6 +282,11 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(col.gameObject);
             time += 1;
+        }
+        else if (col.tag == "TimeItemBig")
+        {
+            Destroy(col.gameObject);
+            time += 30;
         }
         else if (col.tag == "ScoreItem")
         {
@@ -240,6 +320,19 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(.04f);
             sr.color = normal;
             yield return new WaitForSeconds(.04f);
+        }
+    }
+    IEnumerator FlickerPurple()
+    {
+        Color normal = sr.color;
+        Color current = Color.magenta;
+        float time = .9f;
+        for (float i = 0; i < time; i = i + .1f)
+        {
+            sr.color = Color.magenta;
+            yield return new WaitForSeconds(.06f);
+            sr.color = normal;
+            yield return new WaitForSeconds(.06f);
         }
     }
 }
